@@ -27,8 +27,8 @@ $(document).ready(function() {
     $("#submit-button").click(function(e) {
         e.preventDefault();
 
-        getInfo();
-        getPrograms();
+        getInfoAndShow();
+        $("#search-results-div").show();
     });
 
     function appendCourseInfoField() {
@@ -100,14 +100,9 @@ $(document).ready(function() {
         console.log(JSON.stringify(info));
     }
 
-    function getPrograms() {
+    function getInfoAndShow() {
         $.get(getURL, info).done(function(data) {
-            console.log(data);
+            $("#search-result").text(data);
         });
-
-        updatePrograms();
-    }
-
-    function updatePrograms() {
     }
 });

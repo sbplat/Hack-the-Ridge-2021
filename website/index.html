@@ -6,7 +6,8 @@
         <title>Project Title Thing</title>
         <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
     </head>
-    <body>
+
+    <body class="bg-blue-100">
         <div class="container mx-auto">
             <section>
                 <nav class="container p-6 mx-auto lg:flex lg:justify-between lg:items-center">
@@ -21,9 +22,10 @@
                                     stroke-linejoin="round"
                                     stroke-width="2"
                                     class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
-                                    viewBox="0 0 24 24"
+                                    viewBox="-1.5 -1.5 24 24"
                                 >
-                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                                    <path d="M18.5 18.3l-5.4-5.4"></path>
+                                    <circle cx="8" cy="8" r="7" />
                                 </svg>
                                 <span class="ml-3 text-xl">University Application Searcher</span>
                             </a>
@@ -204,6 +206,22 @@
                     </div>
                 </div>
             </section>
+
+            <div hidden class="max-w-2xl px-8 py-8 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 border-4 border-indigo-500/100" id="search-results-div">
+                <div class="mt-2">
+                    <a class="text-2xl font-bold text-gray-700 dark:text-white">Program Search Results</a>
+                </div>
+
+                <div class="mt-2">
+                    <a class="text-l font-bold text-gray-700 dark:text-white" id="search-result">results...</a>
+                </div>
+
+                <div class="flex items-center justify-between mt-4">
+                    <div class="flex items-center">
+                        <a class="font-bold text-gray-700 cursor-pointer dark:text-gray-200"></a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <script src="./js/jquery-3.6.0.min.js"></script>
@@ -211,7 +229,7 @@
     </body>
 
     <footer class="flex flex-col items-center justify-between px-6 py-4 dark:bg-gray-800 sm:flex-row">
-        <a href="https://github.com/sbplat/Hack-the-Ridge-2021" class="text-xl font-bold text-gray-800 dark:text-white hover:text-gray-700 dark:hover:text-gray-300">Project</a>
+        <a href="https://github.com/sbplat/Hack-the-Ridge-2021" class="text-xl font-bold text-gray-800 dark:text-white hover:text-gray-700 dark:hover:text-gray-300">UAS</a>
 
         <p class="py-2 text-gray-800 dark:text-white sm:py-0">All rights reserved</p>
 
