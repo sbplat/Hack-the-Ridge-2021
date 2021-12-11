@@ -5,6 +5,19 @@ $(document).ready(function() {
 
     let currentCourseNum = 0;
 
+    let info = {};
+    let university = false;
+    let tags = [];
+    let courseInfo = {};
+
+    $("#select-all-tags").click(function(e) {
+        let isSelected = $("#select-all-tags").is(":checked");
+
+        $("#program-tags-div").find(":checkbox").each(function() {
+            this.checked = isSelected;
+        });
+    });
+
     $("#add-course-button").click(function(e) {
         e.preventDefault();
 
@@ -15,6 +28,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         getInfo();
+        getPrograms();
     });
 
     function appendCourseInfoField() {
@@ -23,7 +37,7 @@ $(document).ready(function() {
         $("#course-form").append(`
             <div class="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
                 <div class="relative flex-grow w-full">
-                    <label for="course-code" class="leading-7 text-sm text-gray-600">Subject</label>
+                    <label for="course-code" class="leading-7 text-sm text-gray-600">Course Code</label>
                     <input
                         type="text"
                         id="course-code${currentCourseNum}"
@@ -47,16 +61,52 @@ $(document).ready(function() {
     }
 
     function getInfo() {
-        let info = {};
+        info = {};
+        university = false;
+        tags = [];
+        courseInfo = {};
+
+        university = $("#university-option").val();
+
+        let checkboxDiv = document.getElementsByName("checkbox-tag");
+        for (let i = 0; i < checkboxDiv.length; ++i) {
+            let tagsList = checkboxDiv[i].getElementsByTagName("*");
+
+            if (tagsList[0].checked) {
+                tags.push(tagsList[1].innerHTML);
+            }
+        }
 
         $("#course-form").children().each(function(index, value) {
             let field = $(this).find("input");
-            console.log(`${field[0].value}, ${field[1].value}`);
+            //console.log(`${field[0].value}, ${field[1].value}`);
+            let grade = parseInt(field[1].value);
+
+            if (grade > 100) {
+                grade = 100;
+            } else if (grade < 0) {
+                grade = 0;
+            }
+
+            if (field[0].value.length > 0) {
+                courseInfo[field[0].value] = grade;
+            }
         });
+
+        info = {
+            "university": university,
+            "tags": tags,
+            "courses": courseInfo
+        };
+
+        console.log(JSON.stringify(info));
     }
 
     function getPrograms() {
-
+        return;
+        $.get(url, function(response, status) {
+            console.log(`${response} ${status}`);
+        });
     }
 
     function updatePrograms() {

@@ -33,15 +33,118 @@
                         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Project</h1>
                         <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Input your high school grade 11 and 12 course marks</p>
                     </div>
+
+                    <div class="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
+                        <div class="relative flex-grow w-full">
+                            <label for="university" class="leading-7 text-sm text-gray-600">University</label>
+
+                            <select
+                                class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                type="text"
+                                id="university-option"
+                                name="course-code"
+                            >
+                                <option>None</option>
+                                <option>University of Toronto</option>
+                                <option>University of Waterloo</option>
+                                <option>University of British Columbia</option>
+                                <option>McGill University</option>
+                                <option>University of Alberta</option>
+                                <option>Queen's University</option>
+                                <option>York University</option>
+                                <option>McMaster University</option>
+                                <option>Ryerson University</option>
+                                <option>University of Guelph</option>
+                                <option>Brock University</option>
+
+                                <select />
+                            </select>
+                        </div>
+
+                        <div class="relative flex-grow w-full" id="program-tags-div">
+                            <label for="course-code" class="leading-7 text-sm text-gray-600">Programs</label>
+                            <div class="mt-2">
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox" name="tags" class="form-checkbox" id="select-all-tags" />
+                                        <span class="ml-2">Select All</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox" name="tags" class="form-checkbox" id="math" />
+                                        <span class="ml-2">Mathematics</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox"name="tags" class="form-checkbox" id="engineering" />
+                                        <span class="ml-2">Engineering</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox"name="tags" class="form-checkbox" id="health-sci" />
+                                        <span class="ml-2">Health Sciences</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox"name="tags" class="form-checkbox" id="arts" />
+                                        <span class="ml-2">Creative Arts and Design</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox"name="tags" class="form-checkbox" id="architecture" />
+                                        <span class="ml-2">Architecture</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox"name="tags" class="form-checkbox" id="business" />
+                                        <span class="ml-2">Business Studies</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox"name="tags" class="form-checkbox" id="social-sciences"/>
+                                        <span class="ml-2">Social Sciences</span>
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox"name="tags" class="form-checkbox" id="educational-studies"/>
+                                        <span class="ml-2">Educational Studies</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox"name="tags" class="form-checkbox" id="argiculture-foods"/>
+                                        <span class="ml-2">Agriculture and Foods</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="inline-flex items-center" name="checkbox-tag">
+                                        <input type="checkbox"name="tags" class="form-checkbox" id="environmental-studies"/>
+                                        <span class="ml-2">Environmental Studies</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <form id="course-form" name="course-form" class="py-4">
                         <div class="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
                             <div class="relative flex-grow w-full">
-                                <label for="course-code" class="leading-7 text-sm text-gray-600">Subject</label>
+                                <label for="course-code" class="leading-7 text-sm text-gray-600">Course Code</label>
                                 <input
                                     type="text"
                                     id="course-code1"
                                     name="course-code"
                                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                    placeholder="MCV4U1"
                                 />
                             </div>
                             <div class="relative flex-grow w-full">
@@ -53,10 +156,12 @@
                                     min="0"
                                     max="100"
                                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                    placeholder="89"
                                 />
                             </div>
                         </div>
                     </form>
+
                     <div class="flex justify-center items-center">
                         <button class="text-white bg-indigo-500 border-0 focus:outline-none hover:bg-indigo-600 rounded inline-flex items-center my-4" id="add-course-button">
                             <h1 class="px-8 py-2">Add Course</h1>
