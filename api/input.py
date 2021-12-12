@@ -9,8 +9,7 @@ cors = CORS(app)
 app.config["DEBUG"] = True
 
 # Create some test data for our catalog in the form of a list of dictionaries.
-data = json.load(open("Dictionary.json"))
-#print(data)
+data = json.load(open("Dictionary.json"))["Universities"][0]
 
 @app.route('/', methods=['GET'])
 @cross_origin()
@@ -32,13 +31,12 @@ def home():
 
     for universityName in data:
         if uni == "None" or uni == universityName:
-            first = True
+            count = 0
 
             for program in data[universityName]:
-                if first:
-                    first = False
+                if count == 0 or count == 1:
+                    count += 1
                     continue
-                print(program)
 
                 min_grade = 0
                 try:
@@ -49,6 +47,6 @@ def home():
                 if top >= min_grade:
                     eligible_programs.append(f"{universityName}: {program}")
 
-    return str(eligible_programs);
+    return '\n'.join(eligible_programs);
 
 app.run()

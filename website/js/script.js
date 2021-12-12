@@ -3,7 +3,7 @@
 $(document).ready(function() {
     console.log("loaded");
 
-    const getURL = "";
+    const getURL = "http://127.0.0.1:5000/";
 
     let info = {};
     let university = false;
@@ -101,7 +101,9 @@ $(document).ready(function() {
     }
 
     function getInfoAndShow() {
-        $.get(getURL, info).done(function(data) {
+        getInfo();
+
+        $.get(getURL, JSON.stringify(info)).done(function(data) {
             $("#search-result").text(data);
         });
     }
