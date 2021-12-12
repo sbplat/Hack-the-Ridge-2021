@@ -1,68 +1,54 @@
 import flask
 from flask import request, jsonify
+from flask_cors import CORS, cross_origin
 import json
+
 app = flask.Flask(__name__)
+cors = CORS(app)
+
 app.config["DEBUG"] = True
 
-
 # Create some test data for our catalog in the form of a list of dictionaries.
-UList = open("Dictionary.json")
-InputList = open("OutFile.txt", "r")
-
-Universities = ""
-InputLines = InputList.readlines()
-Programs = []
-count= 0
-uni = str(InputLines[-1])
-
-Udata = json.load(UList)
-        
-
+data = json.load(open("Dictionary.json"))
+#print(data)
 
 @app.route('/', methods=['GET'])
+@cross_origin()
 def home():
-    return '''<h1>University Find</h1>
-<p>A prototype API for finding appropriate Universities.</p>'''
+    args = json.loads([x for x in request.args.keys()][0])
+    uni = args["university"]
+    tags = args["tags"]
+    courses = args["courses"]
 
+    top = 0
 
-@app.route('/api/v1/resources/University/all', methods=['GET'])
-def api_all():
-    return jsonify(Udata)
-@app.route('/api/v1/resources/University', methods = ['GET'])
-def api_mark():
-    if 'mark' in request.args:
-        mark = int(request.args['mark'])
-    results = []
-    
-    for uni in Udata['Universities']:
-        
-         if int(uni["Algoma University"]["Accounting (BA 3 year)"]["grade_needed"]) <= mark:
-            print(mark)
-            results.append(uni)
-    return jsonify(results)
-
-@app.route('/api/v1/resources/University', methods=['GET'])
-def api_id():
-    # Check if an ID was provided as part of the URL.
-    if 'id' in request.args:
-        
-        id = int(request.args['id'])
+    marks = sorted(list(courses.values()), reverse = True)
+    if len(marks) <= 6:
+        top = round(sum(marks) / len(marks))
     else:
-        return "Error: Specify an ID."
+        top = round(sum(marks[:6] / 6))
 
+    eligible_programs = []
 
-    results = []
+    for universityName in data:
+        if uni == "None" or uni == universityName:
+            first = True
 
-    # Loop through the data and match results that fit the requested ID.
-    # IDs are unique, but other fields might return many results
-    for uni1 in Udata['Universities']:
-        for uni in uni1:
-            if uni['id'] == id:
-        
-                results.append(uni) 
+            for program in data[universityName]:
+                if first:
+                    first = False
+                    continue
+                print(program)
 
-    # Use the jsonify function from Flask to convert our list to JSON
-    return jsonify(results)
+                min_grade = 0
+                try:
+                    min_grade = int(data[universityName][program]["grade_needed"])
+                except ValueError:
+                    pass
+
+                if top >= min_grade:
+                    eligible_programs.append(f"{universityName}: {program}")
+
+    return str(eligible_programs);
 
 app.run()
-
