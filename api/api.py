@@ -1,55 +1,52 @@
-import bs4 as bs
-import urllib.request
+import flask
+from flask import request, jsonify
+from flask_cors import CORS, cross_origin
 import json
 
-def is_number(character):
-    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    if character in numbers:
-        return True
-    return False
-            
+app = flask.Flask(__name__)
+cors = CORS(app)
 
-def get_number(text):
-    number = ''
-    for i in range(len(text)):
-        if is_number(text[i]):
-            number += text[i]
-    if number == '':
-        return text
-    if len(number) == 4 and int(number) >= 6000:
-        return number[:2]
+app.config["DEBUG"] = True
+
+# Create some test data for our catalog in the form of a list of dictionaries.
+data = json.load(open("Dictionary.json"))["Universities"][0]
+
+@app.route('/', methods=['GET'])
+@cross_origin()
+def home():
+    args = json.loads([x for x in request.args.keys()][0])
+    uni = args["university"]
+    tags = args["tags"]
+    courses = args["courses"]
+
+    top = 0
+
+    marks = sorted(list(courses.values()), reverse = True)
+    if len(marks) <= 6:
+        top = round(sum(marks) / len(marks))
     else:
-        return number
-        
-sauce = urllib.request.urlopen('https://www.ontariouniversitiesinfo.ca/universities').read()
-soup = bs.BeautifulSoup(sauce, 'lxml')
+        top = round(sum(marks[:6] / 6))
 
-all_info = []
-program_links = []
-for university in soup.find_all('article'):
-    all_info.append([university.h2.text, university.find_all('a')[1].text])
-    program_links.append(university.find_all('a')[2].get('href'))
+    eligible_programs = []
 
-for i in range(len(program_links)):
-    sauce_programs = urllib.request.urlopen(f'https://www.ontariouniversitiesinfo.ca{program_links[i]}').read()
-    soup_programs = bs.BeautifulSoup(sauce_programs, 'lxml')
+    for universityName in data:
+        if uni == "None" or uni == universityName:
+            count = 0
 
-    programs = []
-    program_sublinks = []
-    for program in soup_programs.find_all('article'):
-        programs.append([program.h2.text])
-        program_sublinks.append(program.a.get('href'))
-    for j in range(len(programs)):
-        sauce_program = urllib.request.urlopen(f'https://www.ontariouniversitiesinfo.ca{program_sublinks[j]}').read()
-        soup_program = bs.BeautifulSoup(sauce_program, 'lxml')
+            for program in data[universityName]:
+                if count == 0 or count == 1:
+                    count += 1
+                    continue
 
-        program_info = []
-        for info in soup_program.find_all('dd'):
-            program_info.append(get_number(info.text.replace('\n', '').replace('\t', '')))
-        programs[j].append(program_info)
-    all_info[i].append(programs)
+                min_grade = 0
+                try:
+                    min_grade = int(data[universityName][program]["grade_needed"])
+                except ValueError:
+                    pass
 
+                if top >= min_grade:
+                    eligible_programs.append(f"{universityName}: {program}")
 
-with open("Dictionary.json", "w") as outfile:
-    json.dump(all_info, outfile)
+    return '\n'.join(eligible_programs);
 
+app.run()
